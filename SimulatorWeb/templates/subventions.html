@@ -1,0 +1,47 @@
+{% extends "layout.html" %}
+{% block catalogue %}
+<div class="container">
+    <section class="section">
+        <h1 class="title" style="text-align: center;">CATÁLOGO DE SUBVENCIONES DISPONIBLES</h1>
+    </section>
+    <div class="tile is-ancestor">
+    {% for subvention in subventions %}
+        <div class="tile is-parent is-4">
+            <article class="tile is-child box">
+                <div class="card">
+                    <header class="card-header" style="height:75px; text-align: justify;">
+                        <p class="card-header-title">
+                            {{ subvention['TITLE'] }}
+                        </p>
+                    </header>
+                    <div class="card-content">
+                        <div class="content" style="height:200px;text-align: justify">
+                            {{ subvention['LAW'] }}
+                        </div>
+                    </div>
+                    <footer class="card-footer">
+                        <a href="simulador?idSubvention={{ subvention['ID'] }}" class="card-footer-item"><button class="button is-info is-outlined">Simular</button></a>
+                        {% if subvention['LAW_URL'] != None %}
+                            <a href="{{ subvention['LAW_URL'] }}" class="card-footer-item"><button class="button is-danger is-outlined">Información</button></a>
+                        {% endif %}
+                        {% if subvention['REQUEST'] != None %}
+                            <a href="{{ subvention['REQUEST'] }}" class="card-footer-item"><button class="button is-success is-outlined">Solicitar</button></a>
+                        {% endif %}
+                    </footer>
+                </div>
+            </article>
+        </div>
+        {% if loop.index % 3 == 0 %}
+    </div>
+            {% if loop.last != True %}
+    <div class="tile is-ancestor">
+            {% endif %}
+        {% endif %}
+        {% if loop.last == True %}
+            {% if loop.index % 3 != 0 %}
+    </div>
+            {% endif %}
+        {% endif %}
+    {% endfor %}
+</div>
+{% endblock %}

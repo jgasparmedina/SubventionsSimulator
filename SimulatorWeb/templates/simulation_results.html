@@ -1,0 +1,78 @@
+{% extends "layout.html" %}
+{% block catalogue %}
+<div class="container">
+    <section class="section">
+        {% if subventions|length == 0 %}
+            <h1 class="title" style="text-align: center;">Lamentablemente no puedes acceder a ninguna ayuda</h1>
+        {% else %}
+            <h1 class="title" style="text-align: center;">Puedes acceder a las siguientes ayudas:</h1>
+        {% endif %}
+    </section>
+    <div class="tile is-ancestor">
+    {% for subvention in subventions %}
+        <div class="tile is-parent is-4">
+            <article class="tile is-child box">
+                <div class="card">
+                    <header class="card-header" style="height:75px; text-align: justify;">
+                        <p class="card-header-title">
+                            {{ subvention['TITLE'] }}
+                        </p>
+                    </header>
+                    <div class="card-content">
+                        <div class="content" style="height:200px;text-align: justify">
+                            {{ subvention['LAW'] }}
+                        </div>
+                    </div>
+                    <footer class="card-footer">
+                        <a href="simulador?idSubvention={{ subvention['ID'] }}" class="card-footer-item"><button class="button is-info is-outlined">Simular</button></a>
+                        {% if subvention['LAW_URL'] != None %}
+                            <a href="{{ subvention['LAW_URL'] }}" class="card-footer-item"><button class="button is-danger is-outlined">Información</button></a>
+                        {% endif %}
+                        {% if subvention['REQUEST'] != None %}
+                            <a href="{{ subvention['REQUEST'] }}" class="card-footer-item"><button class="button is-success is-outlined">Solicitar</button></a>
+                        {% endif %}
+                    </footer>
+                </div>
+            </article>
+        </div>
+        {% if loop.index % 3 == 0 %}
+    </div>
+            {% if loop.last != True %}
+    <div class="tile is-ancestor">
+            {% endif %}
+        {% endif %}
+        {% if loop.last == True %}
+            {% if loop.index % 3 != 0 %}
+    </div>
+            {% endif %}
+        {% endif %}
+    {% endfor %}
+    <div class="tile is-ancestor">
+        <div class="tile is-parent">
+            <article class="tile is-child box">
+                <div class="card">
+                    <header class="card-header">
+                        <p class="card-header-title">
+                            CONSIDERACIONES
+                        </p>
+                    </header>
+                    <div class="card-content">
+                        <div class="content">
+                            <ul>
+                                <li>Esto es el resultado de una simulación basada en la interpretación de los datos proporcionados por lo que no asegura el cumplimiento de los requerimientos para acceder a las ayudas listadas anteriormente.</li>
+                                {% for subvention in subventions %}
+                                    {% if subvention['INCOMPATIBILITIES'] != None %}
+                                <li>La prestación <b>{{ subvention['TITLE'] }}</b> tiene estas incompatibilidades a tener en cuenta:
+                                    <blockquote style="font-style: italic">{{ subvention['INCOMPATIBILITIES'] }}</blockquote>
+                                </li>
+                                    {% endif %}
+                                {% endfor %}
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </article>
+        </div>
+    </div>
+</div>
+{% endblock %}

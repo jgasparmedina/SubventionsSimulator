@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<meta http-equiv="X-UA-Compatible" content="IE=edge">
+		<meta name="viewport" content="width=device-width, initial-scale=1">
+		<title>EAPN - Identificador de Prestaciones</title>
+		<!-- <link href="{{ url_for('static', filename='eapn.css')}}" rel="stylesheet" type="text/css"> -->
+		<link href="{{ url_for('static', filename='bulma.min.css')}}" rel="stylesheet" type="text/css">
+		<link href="{{ url_for('static', filename='tooltip.css')}}" rel="stylesheet" type="text/css">
+		<script src="{{ url_for('static', filename='jquery-3.6.0.min.js')}}"></script>
+		<script src="{{ url_for('static', filename='eapn.js')}}"></script>
+	</head>
+	<body>
+		<div class="container">
+			<nav class="navbar" role="navigation" aria-label="main navigation">
+				<div class="navbar-brand">
+					<a class="navbar-item" href="/">
+					  <img src="{{ url_for('static', filename='Logo_EAPN_MADRID.jpg')}}">
+					</a>
+
+					<a role="button" class="navbar-burger" aria-label="menu" aria-expanded="false" data-target="navbarBasicExample">
+					  <span aria-hidden="true"></span>
+					  <span aria-hidden="true"></span>
+					  <span aria-hidden="true"></span>
+					</a>
+				</div>
+
+				<div id="navbarBasicExample" class="navbar-menu">
+					<div class="navbar-start">
+						<a class="navbar-item" href="/">
+							Inicio
+						</a>
+
+						<a class="navbar-item" href="/catalogo">
+							Catálogo
+						</a>
+
+						<a class="navbar-item" href="/simulador">
+							Simulación
+						</a>
+
+						<div class="navbar-item has-dropdown is-hoverable">
+							<a class="navbar-link">
+							Información
+							</a>
+
+							<div class="navbar-dropdown">
+								<a class="navbar-item" href="http://www.eapnmadrid.org/">
+									EAPN Madrid
+								</a>
+								<a class="navbar-item" href="http://www.unir.net/">
+									UNIR
+								</a>
+								<a class="navbar-item" href="https://www.unir.net/facultades/facultad-derecho/clinica-juridica/">
+									Clínica Jurídica
+								</a>
+								<hr class="navbar-divider">
+								<a class="navbar-item" href="mailto:admin@eapnmadrdid.com">
+									Contacta
+								</a>
+							</div>
+						</div>
+					</div>
+					<div class="navbar-end">
+						<div class="navbar-item">
+						<p class="title is-4" style="text-align: justify;font-family: 'Ink Free';font-size: 22px;line-height: 2em;letter-spacing: 4px;">European Anti Poverty Network</p>
+							<div class="buttons">
+							</div>
+						</div>
+					</div>
+				</div>
+			</nav>
+		</div>
+		{% block intro %}{% endblock %}
+		{% block buttons %}{% endblock %}
+		{% block catalogue %}{% endblock %}
+	</body>
+	<footer class="footer has-background-white">
+		<div class="content has-text-centered"  style="font-size:10px;">
+			<p>
+				<strong>Identificador de Prestaciones</strong> de <a href="http://www.eapnmadrid.org/">EAPN Madrid</a> en colaboración con <a href="http://www.unir.net">UNIR<img src="{{ url_for('static', filename='Logo_UNIR.png')}}" width="50" height="50" style="vertical-align:middle"></a>
+			</p>
+			<p>
+				Desarrollado por Joaquín Gaspar Medina Arco bajo licencia <a href="https://www.gnu.org/licenses/gpl-3.0.html">GNU</a></p>.
+			</p>
+		</div>
+	</footer>
+</html>

@@ -1,0 +1,36 @@
+{% extends "layout.html" %}
+{% block intro %}
+<div class="container">
+    <div class="columns">
+        <div class="column">
+            <section class="section">
+                <img src="{{ url_for('static', filename='ayudas.png')}}" alt="Simulador de Ayudas" width="400" height="400">
+            </section>
+        </div>
+        <div class="column">
+            <section class="section">
+                <h1 class="title is-4" style="text-align: center;">Identificador de prestaciones</h1>
+                <div class="block">
+                    <p style="text-align: justify">Esta herramienta tiene como objetivo evaluar si una persona cumple los requisitos para acceder a alguna de las prestaciones o subvenciones que están en vigor por parte de las Administraciones Públicas del Estado y de la Comunidad de Madrid. Esta evaluación se puede hacer de manera genérica o particular para una prestación en concreto.</p>
+                </div>
+                <div class="block">
+                    <p style="text-align: justify">El proceso consistirá en ir proporcionando la información que la aplicación vaya solicitando en referencia a situación laboral, económica, social, etc. de la persona sobre la que se quiere realizar la simulación para, en función de dicha información identificar si cumple los requisitos o no. El proceso de captura de información no es fijo por lo que en función de la información proporcionada se requerirá o no información adicional.</p>
+                </div>
+            </section>
+        </div>
+    </div>
+</div>
+{% endblock %}
+{% block buttons %}
+<div class="container">
+    <section class="section">
+        <h1 class="title is-4" style="text-align: center;">SELECCIONA UNA OPCIÓN</h1>
+        <div class="block">
+            <a href="simulador" target="_self" class="button is-fullwidth is-info is-outlined" style="text-transform:uppercase">¿A qué prestaciones puedo optar?</a>
+        </div>
+        <div class="block">
+            <a href="catalogo" target="_self" class="button is-fullwidth is-info is-outlined" style="text-transform:uppercase">¿Puedo acceder a una prestación concreta?</a>
+        </div>
+    </section>
+</div>
+{% endblock %}

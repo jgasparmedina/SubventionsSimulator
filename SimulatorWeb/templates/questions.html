@@ -1,0 +1,72 @@
+{% extends "layout.html" %}
+{% block buttons %}
+<div class="container">
+    <section class="section">
+        <h1 class="title is-4" style="text-align: center;">{{ question }}</h1>
+        {% if help != "" %}
+        <div class="container">
+            <p class="heading" style="text-align: center;">Descripción</p>
+            <p>{{ help }}</p>
+            <br>
+        </div>
+        {% endif %}
+        {% if fieldType|string != "<class 'float'>" %}
+            {% for option in options %}
+                <div class="block">
+                    <a href="simulador?idAttribute={{ fieldName|string }}&idOption={{ loop.index0 }}" target="_self" class="button is-fullwidth is-info is-outlined " style="text-transform:uppercase">
+                    {% if helpers != None %}
+                        {% if helpers[loop.index0] != '' %}
+                        <p mydata-tooltip mydata-tooltip-message="{{ helpers[loop.index0] }}">{{ option }}</p>
+                        {% else %}
+                            {{ option }}
+                        {% endif %}
+                    {% else %}
+                        {{ option }}
+                    {% endif %}
+                    </a>
+                </div>
+            {% endfor %}
+        {% endif %}
+        {% if fieldType|string == "<class 'float'>" %}
+            <div class="container">
+                <form class="form" name="formulario" method="post" action="/simulador">
+                    <div class="columns">
+                        <div class="column">
+                        </div>
+                        <div class="column">
+                        </div>
+                        <div class="column">
+                            <div class="field is-grouped">
+                                <p class="control is-expanded">
+                                    <input class="input" type="text" name="float_field" placeholder="Edad" size="3" maxlength="3" required pattern="[0-9]{1,3}" title="Indica un valor numérico" required style="text-align:center;">
+                                </p>
+                            </div>
+                            <div class="field is-horizontal">
+                              <div class="field-label">
+                              </div>
+                              <div class="field-body">
+                                <div class="field">
+                                  <div class="control">
+                                    <button class="button is-info is-outlined" type="submit">
+                                      Continuar
+                                    </button>
+                                  </div>
+                                </div>
+                              </div>
+                            </div>
+                        </div>
+                        <div class="column">
+                        </div>
+                        <div class="column">
+                        </div>
+                    </div>
+                </form>
+            </div>
+        {% endif %}
+    </section>
+    <section class="section">
+        <p class="heading" style="text-align: center;">PROGRESO ({{ remainingFields }} preguntas pendientes)</p>
+        <progress class="progress is-info" value="1" max="{{ remainingFields + 1 }}"></progress>
+    </section>
+</div>
+{% endblock %}
