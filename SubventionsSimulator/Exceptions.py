@@ -76,3 +76,15 @@ class NoMoreAttributes(Exception):
 
     def __str__(self):
         return self._message
+
+
+class FileLoaderException(Exception):
+    """
+    This class represents one exception which is raised when the SimulationLoader fails loading the provided config file
+    """
+    def __init__(self, message):
+        self._message = message
+        super().__init__(self._message)
+
+    def __str__(self):
+        return self._message

@@ -1,4 +1,6 @@
-import Attribute, Condition, Subvention
+import Attribute, Condition, Subvention, Exceptions
+import pickle
+
 
 class SubventionsLoader(object):
     """
@@ -6,6 +8,7 @@ class SubventionsLoader(object):
 
     SubventionsLoader must to be override in terms to load info from different sources (file, dict, database, etc.)
     """
+
     def __init__(self):
         """
         Creates an instance of SubventionsLoader
@@ -36,23 +39,11 @@ class SubventionsLoader(object):
         return self._subventions.get(subventionId, None)
 
 
-class SubventionsFileLoader(SubventionsLoader):
-    """
-    This class inherits from SubventionsLoader and implements a file loader
-    """
-    def __init__(self, filename):
-        """
-        Creates an instance from a file which name is filename
-        :param filename: name of the file to be loaded
-        """
-        self._filename = filename
-        super().__init__(self)
-
-
 class SubventionsDictLoader(SubventionsLoader):
     """
     This class inherits from SubventionsLoader and implements a Python dict loader
     """
+
     def __init__(self):
         """
         Creates an instance from a file which name is filename
@@ -82,6 +73,34 @@ class SubventionsDictLoader(SubventionsLoader):
                                                            conf.get('INCOMPATIBILITIES', None))
 
 
+class SubventionsFileLoader(SubventionsDictLoader):
+    """
+    This class inherits from SubventionsDictLoader and implements a file loader
+    """
+
+    def __init__(self, filename):
+        """
+        Creates an instance from a file which name is filename
+        :param filename: name of the file to be loaded
+        """
+        self._filename = filename
+        super().__init__()
+
+    def load(self):
+        """
+        Loads attributes and subvemtions from one pickled file
+        :return: updated instance
+        """
+        try:
+            f = open (self._filename, "rb")
+            attributes = pickle.load (f)
+            subventions = pickle.load (f)
+            f.close ()
+            super().load(attributes, subventions)
+        except Exception as e:
+            raise Exceptions.FileLoaderException ("Error loading data from file %s: %s" % (self._filename, e))
+
+
 if __name__ == '__main__':
     from SubventionsDataSample import AYUDAS, ATRIBUTOS
 
@@ -91,4 +110,4 @@ if __name__ == '__main__':
 
     pprint.pprint(data._attributes)
     pprint.pprint(data._subventions[1])
-    data.getSubventions()[1].checkCompliance (**{'EDAD' : 16})
+    data.getSubventions()[1].checkCompliance(**{'EDAD': 16})

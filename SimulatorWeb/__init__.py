@@ -16,8 +16,10 @@ app = flask.Flask(__name__)
 app.config['SECRET_KEY'] = 'your secret key'
 
 # Load Subventions Data and create Subventions Simulator
-data = SubventionsLoader.SubventionsDictLoader()
-data.load(SubventionsDataSample.ATRIBUTOS, SubventionsDataSample.AYUDAS)
+#data = SubventionsLoader.SubventionsDictLoader()
+#data.load(SubventionsDataSample.ATRIBUTOS, SubventionsDataSample.AYUDAS)
+data = SubventionsLoader.SubventionsFileLoader("D:/SubventionsSimulator/SubventionsConfigTool/subventions.dat")
+data.load()
 subsSimulator = Simulator.Simulator(data.getSubventions())
 
 # Define level for the logging.
