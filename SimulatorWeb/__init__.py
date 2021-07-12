@@ -7,24 +7,50 @@ the SubventionsSimulator project.
 """
 from flask import render_template, request, session
 from SubventionsSimulator import Attribute, SubventionsLoader, Simulator, SubventionsDataSample
+import configparser
 import logging
 import flask
+import sys
 
 app = flask.Flask(__name__)
-
 # Recommended: in Production define an strong key to encrypt session data.
 app.config['SECRET_KEY'] = 'your secret key'
 
-# Load Subventions Data and create Subventions Simulator
-#data = SubventionsLoader.SubventionsDictLoader()
-#data.load(SubventionsDataSample.ATRIBUTOS, SubventionsDataSample.AYUDAS)
-data = SubventionsLoader.SubventionsFileLoader("D:/SubventionsSimulator/SubventionsConfigTool/subventions.dat")
-data.load()
-subsSimulator = Simulator.Simulator(data.getSubventions())
+config = configparser.ConfigParser()
+config.read("SimulatorWeb.cfg")
+if not config.sections():
+    print("Fatal error: SimulatorWeb.cfg file is not present or is empty!", file = sys.stderr)
 
 # Define level for the logging.
-app.logger.setLevel(logging.DEBUG)
+if config["LOG"]["LEVEL"] == "DEBUG":
+    app.logger.setLevel(logging.DEBUG)
+elif config["LOG"]["LEVEL"] == "ERROR":
+    app.logger.setLevel(logging.ERROR)
+elif config["LOG"]["LEVEL"] == "WARNING":
+    app.logger.setLevel(logging.WARNING)
+else:
+    app.logger.setLevel(logging.INFO)
 
+def loadData ():
+    global subsSimulator, data
+    try:
+        # Load Subventions Data and create Subventions Simulator
+        filename = config["DATA"]["FILE"]
+        app.logger.info("Trying to start SubventionsSimulator from datafile %s" % filename)
+        data = SubventionsLoader.SubventionsFileLoader(filename)
+        data.load()
+        subsSimulator = Simulator.Simulator(data.getSubventions())
+        app.logger.info ("SubventionsSimulator succesfully created!")
+    except Exception as e:
+        app.logger.error("Error creating SubventionsSimulator from file: %s" % e)
+        app.logger.info("Creating SubventionsSimulator with sample data")
+        from SubventionsSimulator import SubventionsDataSample
+        data = SubventionsLoader.SubventionsDictLoader ()
+        data.load(SubventionsDataSample.ATRIBUTOS, SubventionsDataSample.AYUDAS)
+        subsSimulator = Simulator.Simulator(data.getSubventions())
+        app.logger.info("SubventionsSimulator succesfully created!")
+
+loadData()
 
 @app.route("/")
 def home():
@@ -42,6 +68,7 @@ def home():
     if 'OPTIONS' in session:
         app.logger.debug("Clearing options from session data")
         session.pop('OPTIONS')
+    loadData()
     return render_template("home.html")
 
 
