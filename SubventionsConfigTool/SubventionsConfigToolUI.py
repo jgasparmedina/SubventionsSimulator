@@ -1333,10 +1333,9 @@ class Ui_MainWindow(object):
             self.showMessage("Prestación ya existente", "Ya existe una prestación con el nombre %s" % name, type = "ERROR")
             return
         logging.debug("Updating subvention dictionary")
-        if (self.previousSubventionName):
+        subId = self.getNextSubventionId()
+        if self.previousSubventionName is not None:
             subId = self.getSubventionId(self.previousSubventionName)
-        else:
-            subId = self.getNextSubventionId()
 
         conditions = []
         for i in range(self.subventionRulesWidget.topLevelItemCount()):
@@ -1486,11 +1485,13 @@ class Ui_MainWindow(object):
 
     def getNextSubventionId(self):
         ids = sorted(self.subventions.keys())
-        i = 1
-        for i in range(1, len(ids)):
-            if ids[i] != ids[i - 1] + 1:
-                return ids[i - 1] + 1
-        return i
+        count = 1
+        for i in range (len (ids)):
+            if ids[i] == count:
+                count += 1
+            else:
+                break
+        return count
 
     def changeAttributeName(self, oldName, newName):
         logging.info("Changing attribute name for %s to %s in all subventions" % (oldName, newName))
