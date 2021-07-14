@@ -116,7 +116,11 @@ def simulator():
             subsSimulator.setAttributeData(session['NEXT_FIELD'], session['OPTIONS'][int(request.args.get('idOption'))])
         else:
             app.logger.debug("Nothing to do in simulador!")
-            return
+            app.logger.info("Simulation has been restarted")
+            session.pop('SIMULATION_IN_PROCESS')
+            session.pop('NEXT_FIELD')
+            session.pop('OPTIONS')
+            return simulator ()
     # If there is no additional attributes to asking for, we clear the session data and serve the result page.
     if subsSimulator.isFinished():
         app.logger.info("Simulation finished!")
