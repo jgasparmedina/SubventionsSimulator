@@ -743,7 +743,7 @@ class Ui_MainWindow(object):
     def setApp(self, app):
         self.app = app
 
-    def showMessage(self, title, message, type = None, buttons = None):
+    def showMessage(self, title, message, msgType = None, buttons = None):
         logging.info("Showing info message: <%s> --> <%s>" % (title, message))
         if buttons:
             self.messagebox.setStandardButtons(buttons)
@@ -760,15 +760,15 @@ class Ui_MainWindow(object):
             self.messagebox.button(QtWidgets.QMessageBox.Yes).setText("Sí")
         if buttons & QtWidgets.QMessageBox.Close:
             self.messagebox.button(QtWidgets.QMessageBox.Close).setText("Cerrar")
-        if type == 'INFO':
+        if msgType == 'INFO':
             self.messagebox.setIconPixmap(QtGui.QPixmap("./icons/icons8-información-40.png"))
-        if type == 'QUESTION':
+        if msgType == 'QUESTION':
             self.messagebox.setIconPixmap(QtGui.QPixmap("./icons/icons8-ayuda-40.png"))
-        if type == 'WARNING':
+        if msgType == 'WARNING':
             self.messagebox.setIconPixmap(QtGui.QPixmap("./icons/icons8-error-40.png"))
-        if type == 'ERROR':
+        if msgType == 'ERROR':
             self.messagebox.setIconPixmap(QtGui.QPixmap("./icons/icons8-alta-prioridad-40.png"))
-        if type == 'OK':
+        if msgType == 'OK':
             self.messagebox.setIconPixmap(QtGui.QPixmap("./icons/icons8-marca-de-verificación-40.png"))
         self.messagebox.setWindowTitle(title)
         self.messagebox.setText(message)
@@ -790,11 +790,11 @@ class Ui_MainWindow(object):
                 f.close()
                 logging.debug("File %s loaded and closed" % self.filename)
                 self.loadData()
-                self.showMessage("Fichero cargado", "El fichero se ha cargado correctamente", type = "OK")
+                self.showMessage("Fichero cargado", "El fichero se ha cargado correctamente", msgType = "OK")
                 self.mainWindow.setWindowTitle("%s" % self.filename)
             except Exception as e:
                 logging.error("Error loading file %s. Reason: %s" % (self.filename, e))
-                self.showMessage("Error cargando fichero", "Error abriendo el fichero %s: %s" % (self.filename, e), type = "ERROR")
+                self.showMessage("Error cargando fichero", "Error abriendo el fichero %s: %s" % (self.filename, e), msgType = "ERROR")
 
     def saveFile(self):
         logging.debug("Showing File Dialog to save file ...")
@@ -815,13 +815,13 @@ class Ui_MainWindow(object):
                 f.close()
                 logging.debug("File %s saved and closed" % self.filename)
                 self.isEdited = False
-                self.showMessage("Fichero guardado", "El fichero se ha guardado correctamente", type = "OK")
+                self.showMessage("Fichero guardado", "El fichero se ha guardado correctamente", msgType = "OK")
                 self.filename = filename
                 self.mainWindow.setWindowTitle("%s" % self.filename)
                 self.statusbar.showMessage("Fichero %s guardado correctamente" % self.filename, 10000)
             except Exception as e:
                 logging.error("Error saving file %s. Reason: %s" % (self.filename, e))
-                self.showMessage("Error guardando fichero", "Error guardando el fichero %s: %s" % (self.filename, e), type = "ERROR")
+                self.showMessage("Error guardando fichero", "Error guardando el fichero %s: %s" % (self.filename, e), msgType = "ERROR")
 
     def saveFileAs(self):
         logging.debug("Showing File Dialog to save file as...")
@@ -839,13 +839,13 @@ class Ui_MainWindow(object):
                 f.close()
                 logging.debug("File %s saved and closed" % self.filename)
                 self.isEdited = False
-                self.showMessage("Fichero guardado", "El fichero se ha guardado correctamente", type = "OK")
+                self.showMessage("Fichero guardado", "El fichero se ha guardado correctamente", msgType = "OK")
                 self.filename = filename
                 self.mainWindow.setWindowTitle("%s" % self.filename)
                 self.statusbar.showMessage("Fichero %s guardado correctamente" % self.filename, 10000)
             except Exception as e:
                 logging.error("Error saving file %s. Reason: %s" % (self.filename, e))
-                self.showMessage("Error guardando fichero", "Error guardando el fichero %s: %s" % (self.filename, e), type = "ERROR")
+                self.showMessage("Error guardando fichero", "Error guardando el fichero %s: %s" % (self.filename, e), msgType = "ERROR")
 
     def newFile(self):
         logging.debug("newFile called")
@@ -863,7 +863,7 @@ class Ui_MainWindow(object):
             self.statusbar.showMessage("Inicio de fichero de configuración nuevo", 10000)
         else:
             logging.info("Showing message to confirm changes before create new file")
-            ret = self.showMessage("Cambios no guardados", "Si crea uno nuevo perderá los cambios, ¿desea continuar?", type = "QUESTION",
+            ret = self.showMessage("Cambios no guardados", "Si crea uno nuevo perderá los cambios, ¿desea continuar?", msgType = "QUESTION",
                                    buttons = QtWidgets.QMessageBox.Save | QtWidgets.QMessageBox.Yes | QtWidgets.QMessageBox.Discard)
             if (ret == QtWidgets.QMessageBox.Yes):
                 logging.info("Ignoring changes")
@@ -888,7 +888,7 @@ class Ui_MainWindow(object):
             self.app.quit()
         else:
             logging.info("Changes detected befor to exit, showing message to retrieve confirmation.")
-            ret = self.showMessage("Cambios no guardados", "Si sale perderá los cambios, ¿desea salir?", type = "QUESTION",
+            ret = self.showMessage("Cambios no guardados", "Si sale perderá los cambios, ¿desea salir?", msgType = "QUESTION",
                                    buttons = QtWidgets.QMessageBox.Save | QtWidgets.QMessageBox.Cancel | QtWidgets.QMessageBox.Close)
             if (ret == QtWidgets.QMessageBox.Close):
                 logging.info("Exiting ignoring changes! Good bye!")
@@ -1013,7 +1013,7 @@ class Ui_MainWindow(object):
             self.attributeValuesManager()
         else:
             logging.info("Edition for attribute not enabled because any attribute was selected")
-            self.showMessage("Selecciona un atributo", "Para editar atributos debes seleccionar uno.", type = "INFO")
+            self.showMessage("Selecciona un atributo", "Para editar atributos debes seleccionar uno.", msgType = "INFO")
 
     def newAttributeData(self):
         logging.debug("newAttributeData called")
@@ -1038,7 +1038,7 @@ class Ui_MainWindow(object):
         if self.attributesListWidget.currentItem():
             logging.info("Deleting attribute %s" % self.attributesListWidget.currentItem().text())
             logging.info("Showing message to retrieve confirmation.")
-            ret = self.showMessage("Borrar atributo", "¿Está seguro de borrar el atributo %s" % self.attributesListWidget.currentItem().text(), type = "QUESTION",
+            ret = self.showMessage("Borrar atributo", "¿Está seguro de borrar el atributo %s" % self.attributesListWidget.currentItem().text(), msgType = "QUESTION",
                                    buttons = QtWidgets.QMessageBox.Yes | QtWidgets.QMessageBox.No)
             if ret == QtWidgets.QMessageBox.Yes:
                 logging.info("Deletion confirmed")
@@ -1052,7 +1052,7 @@ class Ui_MainWindow(object):
                 logging.info("Deletion canceled")
             self.enableAttributeButtons(False)
         else:
-            self.showMessage("Selecciona un atributo", "Para borrar atributos debes seleccionar uno.", type = "INFO")
+            self.showMessage("Selecciona un atributo", "Para borrar atributos debes seleccionar uno.", msgType = "INFO")
 
     def saveAttributeData(self):
         logging.debug("editAttributeData called")
@@ -1060,15 +1060,15 @@ class Ui_MainWindow(object):
         logging.info("Trying to save attribute %s" % name)
         if name == '':
             logging.warning("Attribute without name")
-            self.showMessage("Indica nombre", "El nombre del atributo es obligatorio", type = "ERROR")
+            self.showMessage("Indica nombre", "El nombre del atributo es obligatorio", msgType = "ERROR")
             return
         if self.attributeQuestionField.toPlainText() == '':
             logging.warning("Attribute without question")
-            self.showMessage("Indica pregunta", "La pregunta del atributo es obligatoria", type = "ERROR")
+            self.showMessage("Indica pregunta", "La pregunta del atributo es obligatoria", msgType = "ERROR")
             return
         if self.attributeTypeField.currentIndex() == 2 and self.valuesTable.rowCount() == 0:  # Lista
             logging.warning("Attribute without values")
-            self.showMessage("Opciones", "Los atributos de tipo 'Lista de opciones' requieren al menos de una opción", type = "ERROR")
+            self.showMessage("Opciones", "Los atributos de tipo 'Lista de opciones' requieren al menos de una opción", msgType = "ERROR")
             return
         if self.previousAttributeName and self.previousAttributeName != name:
             logging.info("Attribute %s has changed its name for %s" % (self.previousAttributeName, name))
@@ -1076,7 +1076,7 @@ class Ui_MainWindow(object):
             self.attributesListWidget.currentItem().setText(name)
             self.changeAttributeName(self.previousAttributeName, name)
         elif not self.previousAttributeName and self.attributesListWidget.findItems(name, QtCore.Qt.MatchExactly):
-            self.showMessage("Atributo ya existente", "Ya existe un atributo con el nombre %s" % name, type = "ERROR")
+            self.showMessage("Atributo ya existente", "Ya existe un atributo con el nombre %s" % name, msgType = "ERROR")
             return
         logging.debug("Updating attributes dictionary")
         self.attributes[name] = {'QUESTION': self.attributeQuestionField.toPlainText(),
@@ -1145,7 +1145,7 @@ class Ui_MainWindow(object):
         logging.debug("deleteAttributeValue called")
         if self.valuesTable.currentRow() == -1:
             logging.error("Attribute value deletion is not available because any value was selected")
-            self.showMessage("Selecciona una fila", "Para borrar valores debes seleccionar uno.", type = "INFO")
+            self.showMessage("Selecciona una fila", "Para borrar valores debes seleccionar uno.", msgType = "INFO")
             return
         rows = []
         for item in self.valuesTable.selectedItems():
@@ -1273,7 +1273,7 @@ class Ui_MainWindow(object):
             self.deleteSubventionButton.setEnabled(False)
         else:
             logging.info("Edition for subvention not enabled because any attribute was selected")
-            self.showMessage("Selecciona una prestación", "Para editar prestaciones debes seleccionar una.", type = "INFO")
+            self.showMessage("Selecciona una prestación", "Para editar prestaciones debes seleccionar una.", msgType = "INFO")
 
     def newSubventionData(self):
         logging.debug("newSubventionData called")
@@ -1298,7 +1298,7 @@ class Ui_MainWindow(object):
         if self.subventionsListWidget.currentItem():
             logging.info("Deleting subvention %s" % self.subventionsListWidget.currentItem().text())
             logging.info("Showing message to retrieve confirmation.")
-            ret = self.showMessage(self.centralwidget, "Borrar prestación", "¿Está seguro de borrar la prestación %s" % self.subventionsListWidget.currentItem().text(), type = "QUESTION",
+            ret = self.showMessage("Borrar prestación", "¿Está seguro de borrar la prestación %s" % self.subventionsListWidget.currentItem().text(), msgType = "QUESTION",
                                    buttons = QtWidgets.QMessageBox.Yes | QtWidgets.QMessageBox.No)
             if ret == QtWidgets.QMessageBox.Yes:
                 logging.info("Deletion confirmed")
@@ -1312,7 +1312,7 @@ class Ui_MainWindow(object):
                 logging.info("Deletion canceled")
             self.enableSubventionButtons(False)
         else:
-            self.showMessage("Selecciona una prestación", "Para borrar prestaciones debes seleccionar una.", type = "INFO")
+            self.showMessage("Selecciona una prestación", "Para borrar prestaciones debes seleccionar una.", msgType = "INFO")
 
     def saveSubventionData(self):
         logging.debug("saveSubventionData called")
@@ -1320,17 +1320,17 @@ class Ui_MainWindow(object):
         logging.info("Trying to save subvention %s" % name)
         if name == '':
             logging.warning("Subvention without name")
-            self.showMessage("Indica nombre", "El nombre de la prestación es obligatorio", type = "ERROR")
+            self.showMessage("Indica nombre", "El nombre de la prestación es obligatorio", msgType = "ERROR")
             return
         if self.subventionTitleField.toPlainText() == '':
             logging.warning("Subvention without title")
-            self.showMessage("Indica título", "El título de la prestación es obligatorio", type = "ERROR")
+            self.showMessage("Indica título", "El título de la prestación es obligatorio", msgType = "ERROR")
             return
         if self.previousSubventionName and self.previousSubventionName != name:
             logging.info("Subvention %s has changed its name for %s" % (self.previousSubventionName, name))
             self.subventionsListWidget.currentItem().setText(name)
         elif not self.previousSubventionName and self.subventionsListWidget.findItems(name, QtCore.Qt.MatchExactly):
-            self.showMessage("Prestación ya existente", "Ya existe una prestación con el nombre %s" % name, type = "ERROR")
+            self.showMessage("Prestación ya existente", "Ya existe una prestación con el nombre %s" % name, msgType = "ERROR")
             return
         logging.debug("Updating subvention dictionary")
         subId = self.getNextSubventionId()
@@ -1395,7 +1395,7 @@ class Ui_MainWindow(object):
         logging.debug("deleteCondition called")
         if self.subventionRulesWidget.selectedItems() == []:
             logging.error("Condition deletion is not available because any rule was selected")
-            self.showMessage("Selecciona una fila", "Para borrar condiciones debes seleccionar una.", type = "INFO")
+            self.showMessage("Selecciona una fila", "Para borrar condiciones debes seleccionar una.", msgType = "INFO")
             return
         for item in self.subventionRulesWidget.selectedItems():
             logging.info("Removing condition item %s %s %s %s from subvention %s" % (item.text(0), item.text(1), item.text(2), item.text(3), self.subventionNameField.text()))
@@ -1423,11 +1423,11 @@ class Ui_MainWindow(object):
         logging.debug("newORCondition called")
         if self.subventionRulesWidget.selectedItems() == []:
             logging.error("OR Condition insertion is not available because any rule was selected")
-            self.showMessage("Selecciona una fila", "Para insertar una condicione debes seleccionar una regla.", type = "INFO")
+            self.showMessage("Selecciona una fila", "Para insertar una condicione debes seleccionar una regla.", msgType = "INFO")
             return
         if self.attributeComboBox.currentText() == "":
             logging.error("OR Condition insertion is not available because there is no attributes")
-            self.showMessage("No hay atributos", "Para insertar una condicione debe existir al menos un atributo", type = "INFO")
+            self.showMessage("No hay atributos", "Para insertar una condicione debe existir al menos un atributo", msgType = "INFO")
             return
         logging.info("Adding new OR condition for subvention %s" % (self.subventionNameField.text()))
         item = self.subventionRulesWidget.selectedItems()[0]
@@ -1436,10 +1436,10 @@ class Ui_MainWindow(object):
         newCondition = QtWidgets.QTreeWidgetItem()
         newCondition.setText(1, self.attributeComboBox.currentText())
         newCondition.setText(2, self.operatorComboBox.currentText())
-        if self.valuesComboBox.isVisible():
+        if self.valuesComboBox.isEnabled():
             if not len(self.valuesComboBox.currentData()):
                 logging.error("OR Condition insertion is not available because there is no values selected")
-                self.showMessage("Valores no seleccionados", "Debes seleccionar al menos un valor para el atributo %s" % self.attributeComboBox.currentText(), type = "INFO")
+                self.showMessage("Valores no seleccionados", "Debes seleccionar al menos un valor para el atributo %s" % self.attributeComboBox.currentText(), msgType = "INFO")
                 return
             if len(self.valuesComboBox.currentData()) > 1:
                 newCondition.setText(3, str(self.valuesComboBox.currentData()))
@@ -1450,7 +1450,7 @@ class Ui_MainWindow(object):
                 float(self.conditionValueField.text())
             except:
                 logging.error("OR Condition insertion is not available because there is no attributes")
-                self.showMessage("Dato incorrecto", "El valor del atributo %s debe ser numérico" % self.attributeComboBox.currentText(), type = "WARNING")
+                self.showMessage("Dato incorrecto", "El valor del atributo %s debe ser numérico" % self.attributeComboBox.currentText(), msgType = "WARNING")
                 return
             newCondition.setText(3, self.conditionValueField.text())
         item.addChild(newCondition)
@@ -1467,12 +1467,16 @@ class Ui_MainWindow(object):
         if self.attributes[attribute]['TYPE'] == float:
             logging.debug("Activating Float field for %s attribute" % attribute)
             self.valuesComboBox.setVisible(False)
+            self.valuesComboBox.setEnabled(False)
             self.conditionValueField.setVisible(True)
+            self.conditionValueField.setEnabled(True)
             return
         else:
             logging.debug("Activating values for %s attribute" % attribute)
             self.valuesComboBox.setVisible(True)
+            self.valuesComboBox.setEnabled(True)
             self.conditionValueField.setVisible(False)
+            self.conditionValueField.setEnabled(False)
             for value in self.attributes[attribute]['VALUES']:
                 logging.debug("Adding value --> %s" % value)
                 self.valuesComboBox.addItem(value)
