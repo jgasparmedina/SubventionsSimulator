@@ -1044,6 +1044,7 @@ class Ui_MainWindow(object):
                 logging.info("Deletion confirmed")
                 attribute = self.attributesListWidget.takeItem(self.attributesListWidget.currentRow())
                 self.attributes.pop(attribute.text())
+                self.deleteAttribute(attribute.text())
                 self.attributesListWidget.setCurrentItem(None)
                 self.clearAttributesTab(full = False)
                 self.statusbar.showMessage("Atributo %s eliminado" % attribute.text(), 10000)
@@ -1290,6 +1291,7 @@ class Ui_MainWindow(object):
         self.subventionDescriptionField.clear()
         self.subventionLawURLField.clear()
         self.subventionRequestURLField.clear()
+        self.subventionIncompatibilitiesField.clear()
         self.subventionRulesWidget.clear()
         self.subventionEditionEnabled = True
 
@@ -1507,6 +1509,22 @@ class Ui_MainWindow(object):
                         newCondition = (newName, operator, value)
                         logging.debug("Changing attribute for condition %s in subvention %s" % (rule[i], self.subventions[subId]['NAME']))
                         rule[i] = newCondition
+
+    def deleteAttribute(self, name):
+        logging.info("Removing attribute %s in all subventions" % name)
+        for subId in self.subventions.keys():
+            newRules = []
+            for rule in self.subventions[subId].get('CONDITIONS', []):
+                newRule = []
+                for i in range(len(rule)):
+                    attribute, operator, value = rule[i]
+                    if attribute != name:
+                        newRule.append(rule[i])
+                    else:
+                        logging.debug("Removing attribute for condition %s in subvention %s" % (rule[i], self.subventions[subId]['NAME']))
+                if newRule != []:
+                    newRules.append (newRule)
+            self.subventions[subId]['CONDITIONS'] = newRules
 
 
 if __name__ == "__main__":
