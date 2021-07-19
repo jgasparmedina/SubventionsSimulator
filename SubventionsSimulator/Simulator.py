@@ -48,13 +48,14 @@ class Simulator(object):
 
         for subventionId in subventionIds:
             if subventionId in self._subventions:
-                self._subventionsToSimulate.append(subventionId)
-                attributes = self._subventions[subventionId].getUniqueAttributes()
-                for attribute in attributes:
-                    try:
-                        self._attributes[attribute] += 1
-                    except KeyError as e:
-                        self._attributes[attribute] = 1
+                if self._subventions[subventionId].getActive ():
+                    self._subventionsToSimulate.append(subventionId)
+                    attributes = self._subventions[subventionId].getUniqueAttributes()
+                    for attribute in attributes:
+                        try:
+                            self._attributes[attribute] += 1
+                        except KeyError as e:
+                            self._attributes[attribute] = 1
         self._attributesInOrder = sorted(self._attributes.items (), key = operator.itemgetter(1), reverse = False)
         self._inProcess = True
 
