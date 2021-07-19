@@ -77,7 +77,7 @@ ATRIBUTOS = {'NACIONALIDAD': {'NAME': 'Nacionalidad',
                        'TYPE': bool,
                        'HELP': ''},
 
-             'EXPLOTACIOM': {'NAME': 'Explotación sexual',
+             'EXPLOTACION': {'NAME': 'Explotación sexual',
                              'QUESTION': '¿Eres víctima de explotación sexual?',
                              'VALUES': ['Sí', 'No'],
                              'HELPERS': None,
@@ -244,7 +244,7 @@ AYUDAS = {1: {'ACTIVE': True,
                              [('INSERCION', '=', 'Sí')],
                              [('VIOLENCIA', '=', 'No')],
                              [('TRATA', '=', 'No')],
-                             [('EXPLOTACIOM', '=', 'No')]
+                             [('EXPLOTACION', '=', 'No')]
                              ],
               'LAWURL': 'https://www.comunidad.madrid/servicios/asuntos-sociales/renta-minima-insercion',
               'REQUESTURL': 'http://www.madrid.org/cs/Satellite?c=CM_ConvocaPrestac_FA&cid=1109168955327&noMostrarML=true&pageid=1331802501637&pagename=PortalCiudadano/CM_ConvocaPrestac_FA/PCIU_fichaConvocaPrestac&vest=1331802501621'},
@@ -267,7 +267,7 @@ AYUDAS = {1: {'ACTIVE': True,
                              [('INSERCION', '=', 'Sí')],
                              [('VIOLENCIA', '=', 'No')],
                              [('TRATA', '=', 'No')],
-                             [('EXPLOTACIOM', '=', 'No')]
+                             [('EXPLOTACION', '=', 'No')]
                              ]},
           3: {'ACTIVE': True,
               'NAME': 'RAI',
@@ -290,7 +290,7 @@ AYUDAS = {1: {'ACTIVE': True,
                              [('SOLICITUD_PREVIA', '=', 'Sí')],
                              [('INSERCION', '=', 'No')],
                              [('TRATA', '=', 'No')],
-                             [('EXPLOTACIOM', '=', 'No')]
+                             [('EXPLOTACION', '=', 'No')]
                              ]},
           4: {'ACTIVE': True,
               'NAME': 'SANITARIA DISCAPACITADOS',
