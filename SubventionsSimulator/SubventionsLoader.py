@@ -69,8 +69,8 @@ class SubventionsDictLoader(SubventionsLoader):
                     ors.append(Condition.SimpleCondition(self._attributes[attribute], operator, value))
                 ands.append(Condition.OR(*ors))
             finalCondition = Condition.AND(*ands)
-            self._subventions[key] = Subvention.Subvention(conf['TITLE'], conf['DESCRIPTION'], conf['LAW'], finalCondition, conf.get('LAWURL', None), conf.get('REQUESTURL', None),
-                                                           conf.get('INCOMPATIBILITIES', None))
+            self._subventions[key] = Subvention.Subvention(conf['TITLE'], conf['DESCRIPTION'], conf['LAW'], conditions = finalCondition, lawURL = conf.get('LAWURL', None),
+                                                           requestURL = conf.get('REQUESTURL', None), incompatibilities = conf.get('INCOMPATIBILITIES', None), active = conf.get("ACTIVE", True))
 
 
 class SubventionsFileLoader(SubventionsDictLoader):
