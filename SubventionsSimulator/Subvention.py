@@ -8,7 +8,7 @@ class Subvention(object):
 
     One subvention is, mainly, one set of conditions to be satisfied in terms to request it.
     '''
-    def __init__(self, title, description, law, conditions = None, lawURL = None, requestURL = None, incompatibilities = None):
+    def __init__(self, title, description, law, conditions = None, lawURL = None, requestURL = None, incompatibilities = None, active = True):
         """
         Creates one instance of Subvention
         :param title: title or resume of the subvention
@@ -18,6 +18,7 @@ class Subvention(object):
         :param lawURL: url of the law
         :param requestURL: url of the request form
         :param incompatibilities: text explaining the incompatibilities
+        :param active: specify if the subvention is active or not
         """
         self._title = title
         self._description = description
@@ -28,6 +29,7 @@ class Subvention(object):
         self._lawURL = lawURL
         self._requestURL = requestURL
         self._incompatibilities = incompatibilities
+        self._active = active
 
     def getTitle(self):
         """
@@ -77,6 +79,13 @@ class Subvention(object):
         :return: incompatibilities of the subvention
         """
         return self._incompatibilities
+
+    def getActive(self):
+        """
+        Returns if subvention is active or not
+        :return: True if subvention is active or False otherwise
+        """
+        return self._active
 
     def setTitle(self, title):
         """
@@ -134,6 +143,14 @@ class Subvention(object):
         """
         self._incompatibilities = incompatibilities
 
+    def setActive(self, active):
+        """
+        Set new active status
+        :param active: active status to be set
+        :return: updated instance
+        """
+        self._active = active
+
     def checkCompliance(self, **answers):
         """
         Check if the data provided satisfies the conditions associated to the subvention
@@ -153,13 +170,14 @@ class Subvention(object):
         return self._conditions.getUniqueAttributes()
 
     def __repr__(self):
-        return "Title <%s>\n\tDescription <%s>\n\tLaw <%s>\n\tLawURL <%s>\n\tRequestURL <%s>\n\tConditions <%s>\n\tIncompatibilites <%s>" % (self.getTitle(),
-                                                                                                                                             self.getDescription(),
-                                                                                                                                             self.getLaw(),
-                                                                                                                                             self.getLawURL(),
-                                                                                                                                             self.getRequestURL(),
-                                                                                                                                             self.getConditions(),
-                                                                                                                                             self.getIncompatibilities())
+        return "Title <%s>\n\tDescription <%s>\n\tLaw <%s>\n\tLawURL <%s>\n\tRequestURL <%s>\n\tConditions <%s>\n\tIncompatibilites <%s>\n\tActive <%s>" % (self.getTitle(),
+                                                                                                                                                            self.getDescription(),
+                                                                                                                                                            self.getLaw(),
+                                                                                                                                                            self.getLawURL(),
+                                                                                                                                                            self.getRequestURL(),
+                                                                                                                                                            self.getConditions(),
+                                                                                                                                                            self.getIncompatibilities(),
+                                                                                                                                                            self.getActive())
 
     def __str__(self):
         return self.__repr__()
