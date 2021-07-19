@@ -40,7 +40,7 @@ class CombinedCondition(object):
     def check(self, **valuesToCheck):
         """
         Checks if the values provided satisfy the conditions.
-        This method mus to be override
+        This method must to be overridden
         :param valuesToCheck: dict with attributes values where key is the name of the attribute and value is the value.
         :return: nothing
         """
