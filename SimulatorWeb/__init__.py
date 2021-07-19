@@ -161,13 +161,14 @@ def browseSubventions():
     """
     subventions = []
     for subventionId in data.getSubventions():
-        subventions.append({'ID': subventionId,
-                            'TITLE': data.getSubvention(subventionId).getTitle(),
-                            'DESCRIPTION': data.getSubvention(subventionId).getDescription(),
-                            'LAW': data.getSubvention(subventionId).getLaw(),
-                            'LAW_URL': data.getSubvention(subventionId).getLawURL(),
-                            'REQUEST': data.getSubvention(subventionId).getRequestURL(),
-                            'INCOMPATIBILITIES': data.getSubvention(subventionId).getIncompatibilities()})
+        if data.getSubvention(subventionId).getActive():
+            subventions.append({'ID': subventionId,
+                                'TITLE': data.getSubvention(subventionId).getTitle(),
+                                'DESCRIPTION': data.getSubvention(subventionId).getDescription(),
+                                'LAW': data.getSubvention(subventionId).getLaw(),
+                                'LAW_URL': data.getSubvention(subventionId).getLawURL(),
+                                'REQUEST': data.getSubvention(subventionId).getRequestURL(),
+                                'INCOMPATIBILITIES': data.getSubvention(subventionId).getIncompatibilities()})
     app.logger.info("Serving subventions.html")
     return render_template("subventions.html", subventions = subventions)
 
