@@ -3,7 +3,13 @@
 <div class="container">
     <section class="section">
         {% if subventions|length == 0 %}
-            <h1 class="title" style="text-align: center;">Lamentablemente no puedes acceder a ninguna ayuda</h1>
+            {% if subventionId != None %}
+                {% if subventions|length == 0 %}
+                <h1 class="title" style="text-align: center;">Lamentablemente no puedes acceder a esta ayuda</h1>
+                {% endif %}
+            {% else %}
+                <h1 class="title" style="text-align: center;">Lamentablemente no puedes acceder a ninguna ayuda</h1>
+            {% endif %}
         {% else %}
             <h1 class="title" style="text-align: center;">Puedes acceder a las siguientes ayudas:</h1>
         {% endif %}
