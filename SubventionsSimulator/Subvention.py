@@ -1,5 +1,5 @@
-import Condition, Attribute
-from Exceptions import IncompleteDataException, WrongData
+from SubventionsSimulator import Condition, Attribute
+from SubventionsSimulator.Exceptions import IncompleteDataException, WrongData
 
 
 class Subvention(object):

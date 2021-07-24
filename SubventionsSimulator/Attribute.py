@@ -1,5 +1,3 @@
-import unittest
-
 
 class Attribute(object):
     '''

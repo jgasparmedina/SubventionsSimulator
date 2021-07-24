@@ -1,5 +1,5 @@
-import Attribute
-from Exceptions import AttributeWithoutDataException, WrongOperatorException, IncompleteDataException
+from SubventionsSimulator import Attribute
+from SubventionsSimulator.Exceptions import AttributeWithoutDataException, WrongOperatorException, IncompleteDataException
 
 
 class CombinedCondition(object):

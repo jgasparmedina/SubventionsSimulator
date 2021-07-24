@@ -1,7 +1,7 @@
 import operator
 
-import SubventionsLoader, Subvention
-from Exceptions import IncompleteDataException, WrongData, UnexpectedAttributeData, NoMoreAttributes, SimulationInProcess
+from SubventionsSimulator import SubventionsLoader, Subvention
+from SubventionsSimulator.Exceptions import IncompleteDataException, WrongData, UnexpectedAttributeData, NoMoreAttributes, SimulationInProcess
 
 
 class Simulator(object):
