@@ -6,7 +6,7 @@ the SubventionsSimulator project.
 - templates folder contains html templates based on Flask to serve each different page.
 """
 from flask import render_template, request, session
-from SubventionsSimulator import Attribute, SubventionsLoader, Simulator, SubventionsDataSample
+from SubventionsSimulator import SubventionsLoader, Simulator
 import configparser
 import logging
 import flask
@@ -68,6 +68,9 @@ def home():
     if 'OPTIONS' in session:
         app.logger.debug("Clearing options from session data")
         session.pop('OPTIONS')
+    if 'SUBVENTION' in session:
+        app.logger.debug("Clearing subvention from session data")
+        session.pop('SUBVENTION')
     loadData()
     return render_template("home.html")
 
@@ -90,6 +93,7 @@ def simulator():
         session['SIMULATION_IN_PROCESS'] = True
         # Simulation for one specific subvention
         if request.args.get('idSubvention', None):
+            session['SUBVENTION'] = int(request.args.get('idSubvention', None))
             app.logger.info("Starting new simulation for idSubvention --> %s", request.args.get('idSubvention', None))
             subsSimulator.startSimulation([int(request.args.get('idSubvention', None))])
         # Simulation for all available subventions
@@ -120,6 +124,8 @@ def simulator():
             session.pop('SIMULATION_IN_PROCESS')
             session.pop('NEXT_FIELD')
             session.pop('OPTIONS')
+            if session.get('SUBVENTION', None):
+                session.pop('SUBVENTION')
             return simulator ()
     # If there is no additional attributes to asking for, we clear the session data and serve the result page.
     if subsSimulator.isFinished():
@@ -127,6 +133,9 @@ def simulator():
         session.pop('SIMULATION_IN_PROCESS')
         session.pop('NEXT_FIELD')
         session.pop('OPTIONS')
+        requestedSubventionId = session.get('SUBVENTION', None)
+        if requestedSubventionId:
+            session.pop('SUBVENTION')
         subventionsOk = []
         for subventionId in subsSimulator.getSubventionsOk():
             subventionsOk.append({'ID': subventionId,
@@ -137,7 +146,7 @@ def simulator():
                                   'REQUEST': data.getSubvention(subventionId).getRequestURL(),
                                   'INCOMPATIBILITIES': data.getSubvention(subventionId).getIncompatibilities()})
         app.logger.info("Serving simulation_results.html with results: %s" % subsSimulator.getSubventionsOk())
-        return render_template("simulation_results.html", subventions = subventionsOk)
+        return render_template("simulation_results.html", subventions = subventionsOk, subventionId = requestedSubventionId)
     # In other case, we continue with the simulation serving the next attribute to ask for.
     else:
         attribute = subsSimulator.getNextAttribute()
