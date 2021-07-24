@@ -1,12 +1,12 @@
 import unittest
-import Attribute, Condition, Subvention, Exceptions
+from SubventionsSimulator import Attribute, Condition, Subvention, Exceptions
 
 
 class SubventionTestCase(unittest.TestCase):
     def test1(self):
         with self.assertRaises(Exception) as e:
             s = Subvention.Subvention("Title", "Description", "Law")
-        self.assertEqual(str(e.exception), "Conditions has not a valid type --> expected <class 'Condition.CombinedCondition'> and received <class 'NoneType'>")
+        self.assertEqual(str(e.exception), "Conditions has not a valid type --> expected <class 'SubventionsSimulator.Condition.CombinedCondition'> and received <class 'NoneType'>")
 
     def test2(self):
         a = Attribute.Attribute("Nationality", "What is your nationality?", ['Spanish', 'English', 'European', 'Others'], ['', '', '', 'For other countries'], list, "Indicate your nationality")
