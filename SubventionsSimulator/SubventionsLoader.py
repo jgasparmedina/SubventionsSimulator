@@ -1,4 +1,4 @@
-import Attribute, Condition, Subvention, Exceptions
+from SubventionsSimulator import Attribute, Condition, Subvention, Exceptions
 import pickle
 
 
