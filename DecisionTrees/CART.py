@@ -14,7 +14,7 @@ class CART(Tree.Tree):
         :param dataset: training element dataset in DataFrame format (pandas)
         :param attributeClass: name of the attribute which provides the class of the elements. By default the attribute will be 'CLASS'
         """
-        super().__init__()
+        super().__init__('CART')
         self._tree = self._createTree(dataset, attributeClass = attributeClass)
 
     def _getGini(self, dataset, attributeClass = 'CLASS', attributeName = 'CLASS', attributeValue = None,):

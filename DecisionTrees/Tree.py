@@ -5,11 +5,19 @@ class Tree(object):
     """
     This abstract class represent a generic Decision Tree, implements some common methods and defines other ones which mus to be implemented in its heir classes.
     """
-    def __init__(self):
+    def __init__(self, algorithmName):
         """
         Creates an instance of Tree
         """
         self._tree = None
+        self._name = algorithmName
+
+    def getTreeName(self):
+        """
+        Returns algorithm name
+        :return: name of the Tree
+        """
+        return self._name
 
     def getTree(self):
         """
